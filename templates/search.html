@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="mt-8">
+    <h2 class="text-3xl font-bold mb-6">Explore Creators</h2>
+
+    <!-- Search Bar -->
+    <form method="get" class="mb-8 relative max-w-lg">
+        <input type="text" name="q" value="{{ query }}" placeholder="Search for users..."
+            class="w-full bg-[#1a2232] border border-white/10 rounded-full px-6 py-3 pl-12 text-white focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all placeholder-white/30 shadow-glass">
+        <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-white/40">search</span>
+    </form>
+
+    <!-- User List (App Store Style) -->
+    <div class="flex flex-col gap-4">
+        {% for u in users %}
+        <div class="glass-panel p-4 rounded-3xl flex flex-col md:flex-row gap-4 hover:bg-white/5 transition-all group">
+            <!-- Icon/Avatar -->
+            <div
+                class="w-full md:w-24 h-24 rounded-2xl bg-gradient-to-br from-primary to-purple-500 flex items-center justify-center flex-shrink-0 shadow-lg relative overflow-hidden">
+                <span class="text-4xl font-bold text-white relative z-10">{{ u.username|make_list|first|upper }}</span>
+                <!-- Gloss effect -->
+                <div class="absolute inset-0 bg-gradient-to-tr from-white/20 to-transparent opacity-50"></div>
+            </div>
+
+            <!-- Content -->
+            <div class="flex-1 flex flex-col justify-center min-w-0">
+                <h3
+                    class="text-xl font-bold text-white group-hover:text-primary transition-colors flex items-center gap-2">
+                    {{ u.username }}
+                    <span class="material-symbols-outlined text-blue-400 text-[18px]">verified</span>
+                </h3>
+                <div class="flex items-center gap-2 text-sm text-white/50 mb-2">
+                    <span class="flex items-center gap-1 text-yellow-400 font-bold">4.9 <span
+                            class="material-symbols-outlined text-[14px] fill-current">star</span></span>
+                    <span>|</span>
+                    <span>Creative Writer</span>
+                </div>
+                <p class="text-sm text-white/60 line-clamp-2">
+                    Digital artist and tech enthusiast sharing insights on the future of AI and design.
+                </p>
+            </div>
+
+            <!-- Action Button -->
+            <div class="flex items-center">
+                {% if request.user.is_authenticated %}
+                {% if request.user != u %}
+                <a href="{% url 'chat_view' u.username %}"
+                    class="px-6 py-2 bg-primary hover:bg-blue-600 rounded-full font-bold text-sm transition-all shadow-glow hover:scale-[1.05] whitespace-nowrap">
+                    Message
+                </a>
+                {% endif %}
+                {% else %}
+                <a href="{% url 'login' %}?next={% url 'profile_view' u.username %}"
+                    class="px-6 py-2 bg-[#2a3241] hover:bg-[#323b4b] text-primary rounded-full font-bold text-sm transition-all whitespace-nowrap">
+                    Login
+                </a>
+                {% endif %}
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-white/40 text-center py-10">No users found matching your search.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

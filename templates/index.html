@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="w-full mt-4">
+    <div class="relative overflow-hidden rounded-2xl group cursor-pointer shadow-glow">
+        <!-- Image with overlay -->
+        <div class="aspect-[16/9] w-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
+            data-alt="Abstract fluid digital art with blue and purple waves"
+            style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAeOGkbGHYxbuRd_RXyfRt3zj7sLM9qdhxzu7ArE4uSBPwIW9JC-6nVN-rPxCtYPX4BtPKGbWY7-KP4q7GTCnuJjVSQjTAN-JvFtCB4qMDuZHI4vxYvkSN41gs6JenkUaICb3Gm6_z04z9Ntx-wFKqyIE93AP59J6vNCA-mODxrUMQWHRiOqWstfDTsn-z_ScvizSghFb8Evna4cGHD3D-d-sSUFHMGokaY9_hJM_lZipM055pxDVogvICUteswcWJHkDlnx9878rU");'>
+        </div>
+        <!-- Gradient overlay -->
+        <div class="absolute inset-0 bg-gradient-to-t from-background-dark via-background-dark/50 to-transparent"></div>
+        <!-- Content -->
+        <div class="absolute bottom-0 left-0 p-8 md:p-12 w-full flex flex-col items-start gap-4">
+            <span
+                class="inline-flex items-center rounded-full bg-primary/20 px-3 py-1 text-xs font-bold uppercase tracking-wider text-primary backdrop-blur-sm border border-primary/20">
+                Featured Story
+            </span>
+            <h2 class="text-4xl md:text-5xl font-black leading-tight tracking-tight text-white max-w-2xl">
+                The Future of Digital Art
+            </h2>
+            <p class="text-white/80 text-lg md:text-xl font-normal max-w-xl leading-relaxed">
+                Exploring how AI, VR, and new technologies are reshaping the canvas of modern creativity.
+            </p>
+            <div class="mt-2 flex items-center gap-4 text-sm font-medium text-white/60">
+                <span class="flex items-center gap-1"><span
+                        class="material-symbols-outlined text-[16px]">schedule</span> 8 min read</span>
+                <span>•</span>
+                <span>Oct 24, 2023</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Filters -->
+<section class="w-full overflow-x-auto pb-2 scrollbar-hide">
+    <div class="flex gap-3 min-w-max">
+        <button
+            class="flex h-10 items-center justify-center rounded-full bg-primary px-6 text-sm font-semibold text-white shadow-lg shadow-primary/25 transition-transform hover:scale-105">
+            All Topics
+        </button>
+        <button
+            class="flex h-10 items-center justify-center rounded-full bg-white/5 border border-white/5 px-6 text-sm font-medium text-white/80 transition-all hover:bg-white/10 hover:text-white hover:border-white/10">
+            Technology
+        </button>
+        <button
+            class="flex h-10 items-center justify-center rounded-full bg-white/5 border border-white/5 px-6 text-sm font-medium text-white/80 transition-all hover:bg-white/10 hover:text-white hover:border-white/10">
+            Lifestyle
+        </button>
+        <button
+            class="flex h-10 items-center justify-center rounded-full bg-white/5 border border-white/5 px-6 text-sm font-medium text-white/80 transition-all hover:bg-white/10 hover:text-white hover:border-white/10">
+            Design
+        </button>
+    </div>
+</section>
+
+<!-- Blog Grid -->
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+    {% for post in posts %}
+    <article class="group flex flex-col gap-4 cursor-pointer">
+        <div class="overflow-hidden rounded-xl border border-white/5 bg-white/5 aspect-[4/3] relative">
+            <div class="w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
+                style='background-image: url("{{ post.image_url }}");'>
+            </div>
+            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors"></div>
+        </div>
+        <div class="flex flex-col gap-2">
+            <div class="flex items-center justify-between text-xs font-medium text-{{ post.color }}">
+                <span>{{ post.category }}</span>
+                <span class="text-white/40">{{ post.read_time }} min read</span>
+            </div>
+            <h3 class="text-xl font-bold leading-tight group-hover:text-{{ post.color }} transition-colors">{{
+                post.title }}
+            </h3>
+            <p class="text-sm text-white/60 line-clamp-2">{{ post.subtitle }}</p>
+        </div>
+    </article>
+    {% endfor %}
+    <!-- Add more articles as needed -->
+</section>
+{% endblock %}

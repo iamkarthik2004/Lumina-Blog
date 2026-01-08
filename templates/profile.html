@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="mt-8 max-w-2xl mx-auto">
+    <div class="glass-panel p-8 rounded-3xl text-center relative overflow-hidden">
+        <!-- Background Decoration -->
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 -mt-20 w-64 h-64 bg-primary/20 rounded-full blur-[80px]">
+        </div>
+
+        <div class="relative z-10 flex flex-col items-center">
+            <div class="w-32 h-32 rounded-full bg-gradient-to-br from-primary to-purple-600 p-1 shadow-glow mb-4">
+                <div class="w-full h-full rounded-full bg-[#101622] flex items-center justify-center">
+                    <span
+                        class="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-primary to-purple-400">
+                        {{ profile_user.username|make_list|first|upper }}
+                    </span>
+                </div>
+            </div>
+
+            <h1 class="text-3xl font-bold mb-1">{{ profile_user.username }}</h1>
+            <p class="text-white/40 mb-2">@{{ profile_user.username }}</p>
+
+            {% if profile_user.profile.bio %}
+            <p class="text-white/80 max-w-md text-center mb-6 text-lg italic">"{{ profile_user.profile.bio }}"</p>
+            {% else %}
+            <p class="text-white/30 max-w-md text-center mb-6 text-sm">No bio yet.</p>
+            {% endif %}
+
+            <div class="flex gap-4">
+                {% if request.user == profile_user %}
+                <a href="{% url 'edit_profile' %}"
+                    class="flex items-center gap-2 px-8 py-3 bg-white/10 hover:bg-white/20 rounded-full font-bold transition-all border border-white/10">
+                    <span class="material-symbols-outlined text-[20px]">edit</span>
+                    Edit Bio
+                </a>
+                {% endif %}
+                {% if request.user.is_authenticated %}
+                {% if request.user != profile_user %}
+                <a href="{% url 'chat_view' profile_user.username %}"
+                    class="flex items-center gap-2 px-8 py-3 bg-primary hover:bg-blue-600 rounded-full font-bold transition-all shadow-glow hover:scale-[1.05]">
+                    <span class="material-symbols-outlined text-[20px]">chat_bubble</span>
+                    Message
+                </a>
+                {% endif %}
+                {% else %}
+                <a href="{% url 'login' %}?next={% url 'profile_view' profile_user.username %}"
+                    class="flex items-center gap-2 px-8 py-3 bg-white/10 hover:bg-white/20 rounded-full font-bold transition-all border border-white/10">
+                    <span class="material-symbols-outlined text-[20px]">login</span>
+                    Login to Message
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
